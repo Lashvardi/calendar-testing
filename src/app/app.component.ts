@@ -60,7 +60,7 @@ export class AppComponent {
           day: 1,
           time: '20:00-22:00',
           auditorium: '51',
-          isOnline: true,
+          isOnline: false,
           isAlternate: true,
         },
         {
@@ -74,11 +74,14 @@ export class AppComponent {
       ],
     },
   ];
+
+  // VARS
   events: CalendarEvent[] = [];
   private lastDayProcessed: number | null = null;
   hoveredEvent: CalendarEvent | null = null;
   modalRef: any = null; // keep a reference to the modal
   daySchedulingCount: { [key: number]: number } = {}; // New mapping to keep track
+  isDarkTheme = false;
 
   constructor(private _modalService: NzModalService) {}
   @ViewChild('nzTemplate', { static: false }) nzTemplate!: TemplateRef<any>;
@@ -109,7 +112,6 @@ export class AppComponent {
           const startHour = session.time.split('-')[0];
           const endHour = session.time.split('-')[1];
 
-          // If the day hasn't been scheduled yet, initialize it
           if (!this.daySchedulingCount[session.day]) {
             this.daySchedulingCount[session.day] = 0;
           }
@@ -119,7 +121,6 @@ export class AppComponent {
             this.daySchedulingCount[session.day]
           );
 
-          // Increase the scheduling count for that day
           this.daySchedulingCount[session.day]++;
 
           const start = new Date(`${dateForSession}T${startHour}:00`);
@@ -129,8 +130,13 @@ export class AppComponent {
             start,
             end,
             title: `${group.groupName} | ${session.auditorium} | ${startHour}-${endHour}`,
+            color: session.isOnline
+              ? { primary: '#ad2121', secondary: '#FAE3E3' }
+              : { primary: '#1e90ff', secondary: '#D1E8FF' },
             meta: {
               detail: `${group.companyName} | ${group.groupName} (${group.grade}) | Auditorium: ${session.auditorium} | Time: ${startHour} to ${endHour}`,
+              isOnline: session.isOnline,
+              isAlternate: session.isAlternate,
             },
           });
         });
@@ -139,7 +145,7 @@ export class AppComponent {
 
   private getUpcomingDateForDay(day: number, weeksToSkip: number = 0): string {
     const now = new Date();
-    let daysToAdd = ((day - now.getDay() + 7) % 7) + 7 * weeksToSkip; // Using weeksToSkip to skip the necessary weeks
+    let daysToAdd = ((day - now.getDay() + 7) % 7) + 7 * weeksToSkip;
 
     now.setDate(now.getDate() + daysToAdd);
     return now.toISOString().split('T')[0];

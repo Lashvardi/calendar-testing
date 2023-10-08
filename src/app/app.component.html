@@ -1,10 +1,51 @@
-<button (click)="prevWeek()">Previous Week</button>
-<mwl-calendar-week-view [viewDate]="viewDate" [events]="events" (eventClicked)="showTooltip($event)"
-  (dayClicked)="hideTooltip()"></mwl-calendar-week-view>
-<button (click)="nextWeek()">Next Week</button>
+<div class="container">
 
 
+  <nz-row>
+    <nz-col nzSpan="10">
+      <button nz-button [nzType]="'primary'" (click)="prevWeek()">Previous Week</button>
+    </nz-col>
+    <nz-col nzSpan="4"></nz-col> <!-- Spacer -->
+    <nz-col nzSpan="10">
+      <button [nzType]="'primary'" nz-button (click)="nextWeek()">Next Week</button>
+    </nz-col>
+  </nz-row>
 
-<ng-template #nzTemplate>
-  <div *ngIf="hoveredEvent">{{ hoveredEvent.meta?.detail }}</div>
-</ng-template>
+  <nz-row>
+    <nz-col nzSpan="24">
+      <mwl-calendar-week-view [viewDate]="viewDate" [events]="events" (eventClicked)="showTooltip($event)"
+        (dayClicked)="hideTooltip()"></mwl-calendar-week-view>
+    </nz-col>
+  </nz-row>
+
+
+  <ng-template #nzTemplate>
+    <div *ngIf="hoveredEvent">
+      <!-- Event Details Header -->
+
+      <!-- Main Event Info -->
+      <div style="font-size: 16px; color: #333; padding: 5px 0;">
+        {{ hoveredEvent.meta?.detail }}
+      </div>
+
+      <!-- Horizontal Divider -->
+      <hr style="margin: 10px 0;">
+
+      <!-- Event Attributes -->
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <!-- Online Status -->
+        <div style="display: flex; align-items: center;">
+          <span *ngIf="hoveredEvent.meta?.isOnline" nz-icon nzType="laptop" nzTheme="outline"></span>
+          <span *ngIf="hoveredEvent.meta?.isOnline" style="margin-left: 5px; color: #28a745;">Online</span>
+        </div>
+
+        <!-- Alternate Status -->
+        <div style="display: flex; align-items: center;">
+          <span *ngIf="hoveredEvent.meta?.isAlternate" nz-icon nzType="swap" nzTheme="outline"></span>
+          <span *ngIf="hoveredEvent.meta?.isAlternate" style="margin-left: 5px; color: #ffc107;">Alternate</span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+</div>

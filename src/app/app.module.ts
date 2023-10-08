@@ -13,8 +13,17 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import {NzModalModule} from 'ng-zorro-antd/modal';
-registerLocaleData(en); // if you haven't imported this already
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { IconDefinition } from '@ant-design/icons-angular';
+import { LaptopOutline, SwapOutline } from '@ant-design/icons-angular/icons';
+import { NZ_ICONS } from 'ng-zorro-antd/icon';
+
+registerLocaleData(en);
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -29,9 +38,14 @@ registerLocaleData(en); // if you haven't imported this already
     FormsModule,
     NzModalModule,
     HttpClientModule,
+    NzButtonModule,
+    NzGridModule,
+    NzSwitchModule,
+    NzIconModule, // Added this import here
   ],
   providers: [
-    { provide: NZ_I18N, useValue: en_US }
+    { provide: NZ_I18N, useValue: en_US },
+    { provide: NZ_ICONS, useValue: [LaptopOutline, SwapOutline] }, // Providing the icons to the module
   ],
   bootstrap: [AppComponent],
 })

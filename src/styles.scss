@@ -1,2 +1,55 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
+@import "../node_modules/ng-zorro-antd/ng-zorro-antd.min.css";
+body.dark-theme {
+  background-color: #111;
+  color: #eee;
+
+  nz-row, nz-col {
+    background-color: transparent;
+  }
+
+  .cal-day-cell {
+    background-color: #222;
+    color: #ccc;
+    border: 1px solid #333;
+  }
+
+  .cal-day-cell.cal-today {
+    background-color: #444;
+  }
+}
+
+
+.event-title {
+  font-size: 0.9em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%; /* or whatever you prefer */
+}
+
+.cal-day-column.cal-today {
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+
+mwl-calendar-week-view {
+  transition: opacity 0.3s ease-in-out;
+}
+
+button[nz-button]:active ~ mwl-calendar-week-view,
+button[nz-button]:focus ~ mwl-calendar-week-view {
+  opacity: 0.5;
+}
+
+
+.cal-event {
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.05);
+    z-index: 10;
+  }
+}
